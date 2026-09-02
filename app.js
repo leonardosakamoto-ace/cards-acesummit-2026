@@ -556,12 +556,8 @@ function refresh() {
   tools.hidden = !st.img;
   if (st.img) $('#zoom').value = String(st.zoom);
 
-  // a dica só faz sentido quando já existe imagem para arrastar
-  const hint = $('#drag-hint');
-  hint.hidden = !st.img;
-  $('#drag-hint-text').textContent = def.kind === 'photo'
-    ? 'Arraste a foto para reposicionar · use o zoom para aproximar'
-    : 'Arraste o logo para reposicionar · use o zoom para ajustar';
+  // some junto com a imagem; quem a mostra é mostrarDica()
+  if (!st.img) esconderDica();
 
   const ready = def.kind === 'photo' ? !!st.img : (!!st.img || !!st.empresa.trim());
   const btn = $('#download');
@@ -596,7 +592,9 @@ function openEditor(def) {
     : 'Arraste o logo no preview e use o zoom para ajustar o tamanho.';
 
   buildFields(def, st, refresh);
+  preencherLegenda();
   refresh();
+  mostrarDica();
 
   $('#view-picker').hidden = true;
   $('#view-editor').hidden = false;
@@ -660,6 +658,7 @@ async function useFile(file) {
     st.ox = 0;
     st.oy = 0;
     refresh();
+    mostrarDica();
   } catch (err) {
     toast(err.message || 'Não conseguimos usar essa imagem.');
   }
@@ -722,6 +721,74 @@ function bindUpload() {
     current.st.ox = 0;
     current.st.oy = 0;
     refresh();
+  });
+}
+
+/* ---------- dica de arrastar ----------
+   Ela informa uma vez e sai da frente: no celular o preview é pequeno e a
+   tarja cobriria justamente o nome. */
+
+let dicaTimer;
+
+function mostrarDica() {
+  if (!current || !current.st.img) return;
+  const hint = $('#drag-hint');
+  $('#drag-hint-text').textContent = current.def.kind === 'photo'
+    ? 'Arraste para reposicionar'
+    : 'Arraste o logo para ajustar';
+  hint.hidden = false;
+  clearTimeout(dicaTimer);
+  dicaTimer = setTimeout(() => { hint.hidden = true; }, 4500);
+}
+
+function esconderDica() {
+  clearTimeout(dicaTimer);
+  $('#drag-hint').hidden = true;
+}
+
+/* ---------- legenda ---------- */
+
+function preencherLegenda() {
+  if (!current) return;
+  const { def, st } = current;
+  const campo = $('#legenda');
+  // texto que a pessoa editou é dela: só repomos o padrão se ela pedir
+  if (!st.legendaEditada) campo.value = def.caption;
+  $('#restaurar-legenda').hidden = !st.legendaEditada;
+}
+
+async function copiarLegenda() {
+  const campo = $('#legenda');
+  const texto = campo.value;
+  try {
+    await navigator.clipboard.writeText(texto);
+  } catch {
+    // clipboard bloqueado (http, permissão negada): seleciona para copiar à mão
+    campo.focus();
+    campo.select();
+    campo.setSelectionRange(0, texto.length);
+    try {
+      document.execCommand('copy');
+    } catch {
+      toast('Selecione o texto e copie manualmente.');
+      return;
+    }
+  }
+  toast('Legenda copiada!');
+}
+
+function bindLegenda() {
+  const campo = $('#legenda');
+  campo.addEventListener('input', () => {
+    if (!current) return;
+    current.st.legendaEditada = campo.value !== current.def.caption;
+    $('#restaurar-legenda').hidden = !current.st.legendaEditada;
+  });
+  $('#copiar-legenda').addEventListener('click', copiarLegenda);
+  $('#restaurar-legenda').addEventListener('click', () => {
+    if (!current) return;
+    current.st.legendaEditada = false;
+    preencherLegenda();
   });
 }
 
@@ -806,6 +873,7 @@ buildPicker();
 bindDrag();
 bindUpload();
 bindDownload();
+bindLegenda();
 
 $('#back').addEventListener('click', () => { location.hash = ''; });
 window.addEventListener('hashchange', route);

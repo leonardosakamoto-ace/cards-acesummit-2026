@@ -205,7 +205,14 @@ a { color: var(--yellow); }
   font-weight: 700;
   line-height: 1.25;
   text-align: left;
+  white-space: nowrap;
   pointer-events: none;
+  animation: dica-entra 0.25s ease-out;
+}
+
+@keyframes dica-entra {
+  from { opacity: 0; transform: translate(-50%, 8px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
 }
 
 .stage__hint svg { width: 16px; height: 16px; flex: none; color: var(--yellow); }
@@ -286,6 +293,27 @@ a { color: var(--yellow); }
 .img-tools input[type="range"] { width: 100%; accent-color: var(--yellow); }
 .img-tools__tip { margin: 0; font-size: 12px; font-weight: 500; color: var(--ink-400); }
 .img-tools__row { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* legenda pronta para colar */
+
+.legenda {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.9);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.55;
+  resize: vertical;
+  min-height: 150px;
+}
+
+.legenda:focus { outline: none; border-color: var(--yellow); background: rgba(255, 255, 255, 0.09); }
+
+.legenda__acoes { display: flex; flex-wrap: wrap; gap: 8px; }
 
 /* botões */
 
@@ -508,3 +536,49 @@ a { color: var(--yellow); }
 }
 
 .admin__contagem { margin: 14px 0 0; font-size: 12px; font-weight: 600; color: var(--ink-400); }
+
+/* ---------- mobile ---------- */
+
+@media (max-width: 900px) {
+  /* o botão de baixar não pode ficar perdido no fim de uma página longa */
+  .panel-block--actions {
+    position: sticky;
+    bottom: 0;
+    z-index: 20;
+    margin: 0 -16px;
+    padding: 14px 16px calc(14px + env(safe-area-inset-bottom));
+    background: linear-gradient(to top, #170f2b 62%, rgba(23, 15, 43, 0));
+  }
+
+  .btn--primary { width: 100%; padding: 16px 20px; }
+
+  /* preview menor, para os campos aparecerem sem rolar tudo */
+  .stage { max-width: min(480px, 46vh); }
+
+  /* alvos de toque mais generosos */
+  .btn--sm { padding: 11px 14px; font-size: 13px; }
+  .back { padding: 10px 16px; font-size: 14px; }
+  .drop { padding: 30px 20px; }
+  .img-tools input[type="range"] { height: 28px; }
+}
+
+@media (max-width: 560px) {
+  /* 16px evita o zoom automático do iOS ao focar um campo */
+  .field input[type="text"],
+  .legenda,
+  .admin__login input,
+  .admin__ferramentas input,
+  .admin__ferramentas select { font-size: 16px; }
+
+  .editor__panel { gap: 20px; }
+  .legenda { min-height: 190px; }
+  .howto { padding: 12px 14px; }
+
+  /* a tabela do painel rola sozinha em vez de espremer as colunas */
+  .admin__tabela { font-size: 12.5px; }
+  .admin__tabela th, .admin__tabela td { padding: 9px 10px; }
+  .admin__tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .tile { padding: 12px 14px; }
+  .tile__num { font-size: 22px; }
+  .admin__ferramentas input { min-width: 0; }
+}

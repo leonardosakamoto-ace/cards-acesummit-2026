@@ -41,6 +41,11 @@ público sem a pessoa precisar escolher:
 - **Textos**: nome, cargo e empresa têm ajuste automático de corpo, então nome
   comprido não estoura o card. Os textos ficam salvos no navegador entre
   visitas (as imagens, não).
+- **Legenda**: cada modelo vem com um texto pronto para colar no Instagram ou
+  no LinkedIn, com botão de copiar. Dá para editar antes de copiar, e um botão
+  devolve o texto padrão. As legendas são escritas sem marca de gênero
+  ("estou na programação", "faço parte do time") para servirem a qualquer
+  pessoa sem edição — elas ficam em `cards.js`, no campo `caption`.
 - **Download**: no celular, quando o navegador permite, abre a folha nativa de
   compartilhamento — salvar na galeria ou mandar direto para o Instagram. No
   desktop baixa o arquivo direto, sem passar pela folha de compartilhamento.
@@ -91,6 +96,15 @@ node tools/inline-logo.js caminho/para/novo-logo.png
 ```
 
 Fonte **Syne** (400–800) via Google Fonts, como no design system do evento.
+
+## Mobile
+
+A maioria vai montar o card pelo celular, então a página é pensada para isso:
+o botão de baixar fica fixo no rodapé em vez de se perder no fim de um
+formulário longo, os campos usam corpo de 16px (abaixo disso o iOS dá zoom
+sozinho ao focar), o preview é limitado a 46vh para os campos aparecerem sem
+rolagem, e a dica de arrastar sai de cena depois de alguns segundos em vez de
+cobrir o nome no preview.
 
 ## Painel de downloads
 

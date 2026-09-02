@@ -11,6 +11,13 @@ export const EVENT = {
   site: 'www.acesummit.com.br',
 };
 
+/* Legendas prontas para colar no Instagram e no LinkedIn.
+   Escritas sem marca de gênero ("estou na programação", "faço parte do time")
+   para servirem a qualquer pessoa sem edição. */
+const LINHA_EVENTO = '16 de novembro · Centro de Convenções Frei Caneca · São Paulo';
+const ASSINATURA = '@acesummit @aceventures\n#ACESummit2026';
+const legenda = (abertura, corpo) => [abertura, '', LINHA_EVENTO, '', corpo, '', ASSINATURA].join('\n');
+
 /* Os dois conjuntos de brilhos radiais do fundo, já convertidos para
    coordenadas absolutas do card (centro, tamanho da caixa, parada, cor). */
 export const GLOWS = {
@@ -44,6 +51,10 @@ export const CARDS = [
     ],
     footerMt: 44,
     placeholders: { nome: 'Seu Nome', cargo: 'Cargo', empresa: 'Empresa' },
+    caption: legenda(
+      'Estou na programação do ACE Summit 2026.',
+      'Vou subir ao palco para dividir um pouco do que tenho aprendido e trocar ideia com quem está construindo. Se você também vai, me avisa nos comentários.',
+    ),
   },
   {
     id: 'patrocinador',
@@ -62,6 +73,10 @@ export const CARDS = [
     ],
     footerMt: 44,
     placeholders: { empresa: 'Nome da empresa' },
+    caption: legenda(
+      'Somos patrocinadores oficiais do ACE Summit 2026.',
+      'Patrocinar o Summit é estar ao lado de quem constrói e de quem investe nas empresas que mais crescem no Brasil. Nos vemos por lá.',
+    ),
   },
   {
     id: 'apoiador',
@@ -80,6 +95,10 @@ export const CARDS = [
     ],
     footerMt: 44,
     placeholders: { empresa: 'Nome da empresa' },
+    caption: legenda(
+      'Somos apoiadores oficiais do ACE Summit 2026.',
+      'Apoiar o Summit é ajudar a construir o encontro entre quem empreende, quem investe e quem lidera a inovação no Brasil. Nos vemos por lá.',
+    ),
   },
   {
     id: 'embaixador',
@@ -95,6 +114,10 @@ export const CARDS = [
     ],
     footerMt: 44,
     placeholders: { nome: 'Seu Nome', cargo: 'Cargo', empresa: 'Empresa' },
+    caption: legenda(
+      'Faço parte do time de embaixadores do ACE Summit 2026.',
+      'Vou estar por lá e quero levar gente boa comigo. Se você quer entender para onde o mercado está indo e conhecer quem está fazendo acontecer, esse é o encontro.',
+    ),
   },
 ];
 
