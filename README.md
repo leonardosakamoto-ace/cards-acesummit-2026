@@ -99,14 +99,14 @@ Depois abra <http://localhost:4173>.
 
 ## Publicando
 
-É um site estático — qualquer hospedagem serve, sem build:
+É um site estático — qualquer hospedagem serve, sem build.
 
-- **GitHub Pages**: em *Settings → Pages*, aponte para a branch `main` na pasta
-  raiz. Como este repositório é privado, Pages exige plano pago; em repositório
-  público funciona no plano gratuito.
-- **Vercel / Netlify / Cloudflare Pages**: conecte o repositório e publique sem
-  configurar build (a pasta raiz já é o site).
-- **Hospedagem própria**: suba os arquivos e pronto.
+**Vercel** (caminho usado aqui): importe o repositório, deixe *Framework Preset*
+em **Other** e **não** preencha build command nem output directory — a raiz já é
+o site. Cada push na `main` republica.
+
+Alternativas: Netlify e Cloudflare Pages funcionam do mesmo jeito. O GitHub
+Pages também serviria, mas exige plano pago em repositório privado.
 
 A página precisa ser servida por HTTP (não abra o `index.html` direto do disco:
 os módulos JavaScript não carregam em `file://`).
