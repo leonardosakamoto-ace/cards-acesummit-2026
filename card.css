@@ -1,0 +1,244 @@
+/* ACE Summit 2026 — o card em si, sempre desenhado em 1080×1350 reais.
+   O preview usa transform:scale() no wrapper, então o que aparece na tela
+   é exatamente o que sai no PNG. */
+
+.card {
+  position: relative;
+  width: 1080px;
+  height: 1350px;
+  overflow: hidden;
+  background: #241247;
+  font-family: 'Syne', 'Segoe UI', system-ui, sans-serif;
+  color: #fff;
+  flex: none;
+}
+
+/* Fundo (gradiente + brilhos) pintado em canvas para sair idêntico no PNG. */
+.card__bg {
+  position: absolute;
+  inset: 0;
+  width: 1080px;
+  height: 1350px;
+  display: block;
+}
+
+.card__inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 72px 72px 64px;
+}
+
+/* ---------- cabeçalho ---------- */
+
+.card__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.card__logo {
+  height: 150px;
+  width: auto;
+  flex: none;
+  object-fit: contain;
+  display: block;
+}
+
+.card__meta {
+  text-align: right;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.card__meta-date {
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.card__meta-venue {
+  color: rgba(255, 255, 255, 0.736);
+}
+
+/* ---------- blocos ---------- */
+
+.card__headline {
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.card__headline em {
+  font-style: normal;
+  color: #f2bb13;
+}
+
+.card__pill {
+  display: flex;
+}
+
+.card__pill span {
+  display: inline-flex;
+  background: #f2bb13;
+  color: #241247;
+  font-weight: 800;
+  border-radius: 8px;
+}
+
+/* ---------- área da foto ---------- */
+
+.card__photo {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.card__scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.card__caption {
+  position: absolute;
+  left: 48px;
+  right: 48px;
+  bottom: 44px;
+  pointer-events: none;
+}
+
+.card__name {
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  overflow-wrap: break-word;
+}
+
+.card__role {
+  color: #f2bb13;
+  font-weight: 700;
+  line-height: 1.2;
+  overflow-wrap: break-word;
+}
+
+/* ---------- painel branco do logo ---------- */
+
+.card__panel {
+  margin-top: auto;
+  background: #fff;
+  border-radius: 16px;
+  padding: 56px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.card__panel-label {
+  color: #5c5a5e;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.card__panel-slot {
+  position: relative;
+  height: 260px;
+  overflow: hidden;
+}
+
+/* Fallback quando ainda não há logo: o nome da empresa em texto. */
+.card__panel-name {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #241247;
+  font-size: 76px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  text-align: center;
+  overflow-wrap: break-word;
+}
+
+/* ---------- rodapé ---------- */
+
+.card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  padding-top: 32px;
+}
+
+.card__hashtag {
+  color: #fff;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.card__site {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 26px;
+  font-weight: 600;
+}
+
+/* ---------- slot de imagem ---------- */
+
+.slot {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.slot__img {
+  position: absolute;
+  display: block;
+  transform-origin: top left;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.slot__empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-align: center;
+  padding: 40px;
+}
+
+.slot__empty-icon {
+  width: 96px;
+  height: 96px;
+  opacity: 0.55;
+}
+
+.slot__empty-text {
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.card__panel-slot .slot__empty-text {
+  color: #8f8d92;
+}
+
+.card__panel-slot .slot__empty-icon {
+  opacity: 0.35;
+}
