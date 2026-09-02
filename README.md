@@ -10,15 +10,16 @@ o card é montado e exportado no próprio navegador. O que é enviado, no moment
 do download, são apenas o nome, o cargo e a empresa preenchidos, para a
 organização acompanhar quem divulgou (veja *Painel de downloads*).
 
-## Os cinco modelos
+## Os quatro modelos
 
 | | Modelo | O que a pessoa preenche |
 |---|---|---|
 | A | Participação confirmada | Foto + nome, cargo, empresa |
 | B | Somos patrocinadores | Logo da empresa (ou o nome dela) |
-| C | Eu sou palestrante | Foto + nome, cargo, empresa |
-| D | Somos apoiadores oficiais | Logo da empresa (ou o nome dela) |
-| E | Eu sou embaixador | Foto + nome, cargo, empresa |
+| C | Somos apoiadores oficiais | Logo da empresa (ou o nome dela) |
+| D | Eu sou embaixador | Foto + nome, cargo, empresa |
+
+Palestrantes usam o modelo A.
 
 Cada modelo tem link direto por hash, útil para mandar o card certo para cada
 público sem a pessoa precisar escolher:
@@ -26,7 +27,6 @@ público sem a pessoa precisar escolher:
 ```
 .../#participante
 .../#patrocinador
-.../#palestrante
 .../#apoiador
 .../#embaixador
 ```
@@ -71,7 +71,7 @@ degradê sobre a foto e cores da marca batem com o design de origem.
 
 ```
 index.html            página (galeria de modelos + editor + painel)
-cards.js              definição dos 5 cards: geometria, textos fixos, brilhos
+cards.js              definição dos 4 cards: geometria, textos fixos, brilhos
 card.css              o card em si, sempre em 1080×1350 reais
 app.js                fundo em canvas, slot de imagem, ajuste de texto, exportação
 app.css               interface do gerador e do painel

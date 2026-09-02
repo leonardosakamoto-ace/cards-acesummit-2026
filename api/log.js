@@ -8,7 +8,6 @@ import { comBanco, garantirTabela } from './_db.js';
 const CARDS_VALIDOS = new Set([
   'participante',
   'patrocinador',
-  'palestrante',
   'apoiador',
   'embaixador',
 ]);

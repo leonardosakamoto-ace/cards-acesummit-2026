@@ -240,8 +240,10 @@ function layoutSlot(slot, st) {
 
 function applyState(card, def, st) {
   // título fixo: texto não muda, então basta ajustar uma vez por card
+  // Sem layout (elemento ainda fora do documento) a medição não vale nada:
+  // sai sem marcar como ajustado, para tentar de novo quando houver caixa.
   const head = $('[data-headline]', card);
-  if (head && !head.dataset.fitted) {
+  if (head && !head.dataset.fitted && head.clientHeight > 0) {
     const max = Number(head.dataset.max);
     fitFill(head, max, Math.round(max * 0.5));
     head.dataset.fitted = '1';
@@ -485,6 +487,12 @@ function buildPicker() {
         <span class="picker__hint">${escapeHtml(def.hint)}</span>
       </div>`;
 
+    btn.addEventListener('click', () => { location.hash = def.id; });
+    li.appendChild(btn);
+    grid.appendChild(li);
+
+    // Entra no documento primeiro: fora dele todas as medidas são zero e o
+    // ajuste do título aceitaria qualquer corpo como se coubesse.
     const thumb = $('.picker__thumb', btn);
     const host = document.createElement('div');
     host.className = 'stage__host';
@@ -493,10 +501,6 @@ function buildPicker() {
     thumb.appendChild(host);
     applyState(card, def, { img: null, zoom: 1, ox: 0, oy: 0, nome: '', cargo: '', empresa: '' });
     autoScale(host, thumb);
-
-    btn.addEventListener('click', () => { location.hash = def.id; });
-    li.appendChild(btn);
-    grid.appendChild(li);
   }
 }
 

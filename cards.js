@@ -64,23 +64,8 @@ export const CARDS = [
     placeholders: { empresa: 'Nome da empresa' },
   },
   {
-    id: 'palestrante',
-    tag: 'C',
-    title: 'Eu sou palestrante',
-    hint: 'Para quem vai subir ao palco.',
-    kind: 'photo',
-    glow: 'a',
-    slug: 'palestrante',
-    blocks: [
-      { type: 'headline', mt: 56, size: 64, lh: 1.02, html: 'EU SOU <em>PALESTRANTE</em><br>ACE SUMMIT 2026' },
-      { type: 'photo', mt: 40, scrim: 'b', nameSize: 62, roleSize: 28, roleMt: 16 },
-    ],
-    footerMt: 40,
-    placeholders: { nome: 'Seu Nome', cargo: 'Cargo', empresa: 'Empresa' },
-  },
-  {
     id: 'apoiador',
-    tag: 'D',
+    tag: 'C',
     title: 'Somos apoiadores oficiais',
     hint: 'Para instituições e parceiros apoiadores.',
     kind: 'logo',
@@ -98,7 +83,7 @@ export const CARDS = [
   },
   {
     id: 'embaixador',
-    tag: 'E',
+    tag: 'D',
     title: 'Eu sou embaixador',
     hint: 'Para embaixadores oficiais do Summit.',
     kind: 'photo',
