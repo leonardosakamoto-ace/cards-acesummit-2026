@@ -185,6 +185,31 @@ a { color: var(--yellow); }
   touch-action: none;
 }
 
+/* dica de arrastar — vive no palco, fora do card, então não sai no PNG */
+.stage__hint {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: calc(100% - 28px);
+  padding: 9px 15px;
+  border-radius: 999px;
+  background: rgba(23, 15, 43, 0.82);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 12.5px;
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: left;
+  pointer-events: none;
+}
+
+.stage__hint svg { width: 16px; height: 16px; flex: none; color: var(--yellow); }
+
 /* fora do fluxo: o card mede 1080×1350 de verdade, o transform só o encolhe */
 .stage__host {
   position: absolute;

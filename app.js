@@ -116,8 +116,11 @@ function blockHTML(block, def) {
         </div>`;
 
     case 'headline':
+      // `fill` faz o título ocupar todo o espaço até o bloco seguinte: ele
+      // recebe flex:1 e o corpo cresce até encostar na largura ou na altura.
       return `
-        <div class="card__headline" style="margin-top:${block.mt}px;font-size:${block.size}px;line-height:${block.lh}">${block.html}</div>`;
+        <div class="card__headline"${block.fill ? ' data-headline data-max="' + block.size + '"' : ''}
+             style="margin-top:${block.mt}px;font-size:${block.size}px;line-height:${block.lh}${block.fill ? ';flex:1;min-height:0' : ''}">${block.html}</div>`;
 
     case 'photo':
       return `
@@ -180,10 +183,25 @@ function lineCount(el) {
   return Math.max(1, tops.size);
 }
 
+/* Título que preenche o espaço: cresce até o limite da caixa. A largura é
+   quem costuma travar — "PATROCINADORES" é uma palavra só e transborda em
+   vez de quebrar, então medir scrollWidth é o que segura o tamanho. */
+function fitFill(el, maxSize, minSize) {
+  for (let size = maxSize; size >= minSize; size -= 2) {
+    el.style.fontSize = `${size}px`;
+    const cabe = el.scrollWidth <= el.clientWidth + 1 && el.scrollHeight <= el.clientHeight + 1;
+    if (cabe) return;
+  }
+  el.style.fontSize = `${minSize}px`;
+}
+
 function fitText(el, maxLines, maxSize, minSize) {
   for (let size = maxSize; size >= minSize; size -= 2) {
     el.style.fontSize = `${size}px`;
-    if (lineCount(el) <= maxLines) return;
+    // as duas checagens são necessárias: contar linhas pega o texto que quebra,
+    // e a largura pega a palavra única grande demais, que transborda sem quebrar
+    const fits = lineCount(el) <= maxLines && el.scrollWidth <= el.clientWidth + 1;
+    if (fits) return;
   }
   el.style.fontSize = `${minSize}px`;
 }
@@ -221,6 +239,14 @@ function layoutSlot(slot, st) {
 }
 
 function applyState(card, def, st) {
+  // título fixo: texto não muda, então basta ajustar uma vez por card
+  const head = $('[data-headline]', card);
+  if (head && !head.dataset.fitted) {
+    const max = Number(head.dataset.max);
+    fitFill(head, max, Math.round(max * 0.5));
+    head.dataset.fitted = '1';
+  }
+
   // nome e cargo/empresa (cards com foto)
   const nameEl = $('[data-name]', card);
   if (nameEl) {
@@ -503,6 +529,13 @@ function refresh() {
   tools.hidden = !st.img;
   if (st.img) $('#zoom').value = String(st.zoom);
 
+  // a dica só faz sentido quando já existe imagem para arrastar
+  const hint = $('#drag-hint');
+  hint.hidden = !st.img;
+  $('#drag-hint-text').textContent = def.kind === 'photo'
+    ? 'Arraste a foto para reposicionar · use o zoom para aproximar'
+    : 'Arraste o logo para reposicionar · use o zoom para ajustar';
+
   const ready = def.kind === 'photo' ? !!st.img : (!!st.img || !!st.empresa.trim());
   const btn = $('#download');
   btn.disabled = !ready;
@@ -532,8 +565,8 @@ function openEditor(def) {
     ? 'ou arraste o arquivo aqui · JPG, PNG ou WebP'
     : 'ou arraste o arquivo aqui · PNG com fundo transparente fica melhor';
   $('#zoom-tip').textContent = def.kind === 'photo'
-    ? 'Arraste a imagem no preview para reposicionar.'
-    : 'Use o zoom para ajustar o tamanho do logo.';
+    ? 'Arraste a foto direto no preview para escolher o enquadramento.'
+    : 'Arraste o logo no preview e use o zoom para ajustar o tamanho.';
 
   buildFields(def, st, refresh);
   refresh();

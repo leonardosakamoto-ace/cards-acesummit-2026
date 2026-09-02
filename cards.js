@@ -54,8 +54,10 @@ export const CARDS = [
     glow: 'b',
     slug: 'patrocinador',
     blocks: [
-      { type: 'headline', mt: 72, size: 56, lh: 1.05, html: 'SOMOS<br>PATROCINADORES' },
-      { type: 'pill', mt: 24, text: 'ACE SUMMIT 2026', size: 40, ls: '.01em', padY: 14, padX: 24 },
+      {
+        type: 'headline', mt: 72, size: 76, lh: 1.02, fill: true,
+        html: 'SOMOS <em>PATROCINADORES</em><br>OFICIAIS DO<br>ACE SUMMIT 2026',
+      },
       { type: 'logoPanel', label: 'PATROCINADOR' },
     ],
     footerMt: 44,
@@ -85,7 +87,10 @@ export const CARDS = [
     glow: 'b',
     slug: 'apoiador',
     blocks: [
-      { type: 'headline', mt: 64, size: 76, lh: 1.02, html: 'SOMOS <em>APOIADORES</em><br>OFICIAIS DO<br>ACE SUMMIT 2026' },
+      {
+        type: 'headline', mt: 64, size: 76, lh: 1.02, fill: true,
+        html: 'SOMOS <em>APOIADORES</em><br>OFICIAIS DO<br>ACE SUMMIT 2026',
+      },
       { type: 'logoPanel', label: 'APOIADOR' },
     ],
     footerMt: 44,
