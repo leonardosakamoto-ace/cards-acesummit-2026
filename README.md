@@ -14,18 +14,16 @@ organização acompanhar quem divulgou (veja *Painel de downloads*).
 
 | | Modelo | O que a pessoa preenche |
 |---|---|---|
-| A | Participação confirmada | Foto + nome, cargo, empresa |
+| A | Palestrante confirmado | Foto + nome, cargo, empresa |
 | B | Somos patrocinadores | Logo da empresa (ou o nome dela) |
 | C | Somos apoiadores oficiais | Logo da empresa (ou o nome dela) |
 | D | Eu sou embaixador | Foto + nome, cargo, empresa |
-
-Palestrantes usam o modelo A.
 
 Cada modelo tem link direto por hash, útil para mandar o card certo para cada
 público sem a pessoa precisar escolher:
 
 ```
-.../#participante
+.../#palestrante
 .../#patrocinador
 .../#apoiador
 .../#embaixador

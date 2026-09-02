@@ -31,19 +31,19 @@ export const SCRIMS = {
 
 export const CARDS = [
   {
-    id: 'participante',
+    id: 'palestrante',
     tag: 'A',
-    title: 'Participação confirmada',
-    hint: 'Para quem vai ao Summit e quer avisar a rede.',
+    title: 'Palestrante confirmado',
+    hint: 'Para quem vai subir ao palco.',
     kind: 'photo',
     glow: 'a',
-    slug: 'participacao-confirmada',
+    slug: 'palestrante-confirmado',
     blocks: [
-      { type: 'pill', mt: 56, text: 'PARTICIPAÇÃO CONFIRMADA', size: 30, ls: '.1em', padY: 16, padX: 30 },
+      { type: 'pill', mt: 56, text: 'PALESTRANTE CONFIRMADO', size: 30, ls: '.1em', padY: 16, padX: 30 },
       { type: 'photo', mt: 44, scrim: 'a', nameSize: 76, roleSize: 30, roleMt: 18 },
     ],
     footerMt: 44,
-    placeholders: { nome: 'Nome do Participante', cargo: 'Cargo', empresa: 'Empresa' },
+    placeholders: { nome: 'Seu Nome', cargo: 'Cargo', empresa: 'Empresa' },
   },
   {
     id: 'patrocinador',
