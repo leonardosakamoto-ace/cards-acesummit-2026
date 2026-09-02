@@ -4,8 +4,8 @@
    O logo vive embutido como data URI para que o projeto seja 100% texto:
    nada de arquivo binário para hospedar, uma requisição a menos e nenhum
    risco de CORS na hora de exportar o PNG. */
-const fs = require('fs');
-const path = require('path');
+import fs from 'node:fs';
+import path from 'node:path';
 
 const src = process.argv[2];
 if (!src) {
@@ -14,7 +14,7 @@ if (!src) {
 }
 
 const b64 = fs.readFileSync(src).toString('base64');
-const out = path.join(__dirname, '..', 'logo.js');
+const out = path.join(import.meta.dirname, '..', 'logo.js');
 
 fs.writeFileSync(
   out,

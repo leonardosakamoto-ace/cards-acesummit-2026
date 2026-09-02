@@ -5,9 +5,10 @@ do ACE Summit 2026. A pessoa abre o link, escolhe o modelo, coloca a foto (ou o
 logo da empresa), edita nome/cargo/empresa e baixa o PNG em **1080×1350**,
 pronto para o feed do Instagram e do LinkedIn.
 
-Sem cadastro, sem login, sem backend: é uma página estática e **nenhuma imagem
-sai do dispositivo de quem usa** — o card é montado e exportado no próprio
-navegador.
+Sem cadastro e sem login. **A imagem nunca sai do dispositivo de quem usa** —
+o card é montado e exportado no próprio navegador. O que é enviado, no momento
+do download, são apenas o nome, o cargo e a empresa preenchidos, para a
+organização acompanhar quem divulgou (veja *Painel de downloads*).
 
 ## Os cinco modelos
 
@@ -69,14 +70,18 @@ degradê sobre a foto e cores da marca batem com o design de origem.
 ## Estrutura
 
 ```
-index.html            página (galeria de modelos + editor)
+index.html            página (galeria de modelos + editor + painel)
 cards.js              definição dos 5 cards: geometria, textos fixos, brilhos
 card.css              o card em si, sempre em 1080×1350 reais
 app.js                fundo em canvas, slot de imagem, ajuste de texto, exportação
-app.css               interface do gerador
+app.css               interface do gerador e do painel
+admin.js              painel de downloads, carregado sob demanda em /#admin-ace
 logo.js               logo do evento embutido como data URI (gerado)
-tools/inline-logo.js   regera logo.js a partir de um PNG
-dev-server.js         servidor estático mínimo, só para rodar local
+api/_db.js            conexão com o Postgres e conferência da senha
+api/log.js            POST — registra um download
+api/admin.js          GET  — lista os downloads (exige a senha)
+tools/inline-logo.js  regera logo.js a partir de um PNG
+dev-server.js         servidor local; também simula a API em memória
 ```
 
 O projeto é 100% texto: o logo do evento vive embutido em `logo.js` como data
@@ -89,13 +94,48 @@ node tools/inline-logo.js caminho/para/novo-logo.png
 
 Fonte **Syne** (400–800) via Google Fonts, como no design system do evento.
 
+## Painel de downloads
+
+Fica em **`/#admin-ace`**. Nada no site aponta para lá: não existe botão nem
+link, e o endereço só é conhecido por quem recebeu.
+
+Vale ser explícito sobre o que isso protege. O que vem depois de `#` nunca é
+enviado ao servidor, então o hash apenas esconde a entrada — **quem protege os
+dados é a senha** exigida pela API. Sem `ADMIN_KEY` configurada, o endpoint
+responde 503 e o painel não abre, para nunca ficar aberto por esquecimento.
+
+O painel mostra o total por modelo, a tabela com data, modelo, nome, cargo e
+empresa, busca por texto, filtro por modelo e exportação em CSV (separado por
+`;` e com BOM, para o Excel em português abrir os acentos certos).
+
+### O que é registrado
+
+Uma linha por download, com nome, cargo, empresa, qual card e quando. **A foto
+e o logo não são enviados** — eles nunca saem do navegador. A página avisa isso
+em texto, logo abaixo do botão de baixar.
+
+### Configuração na Vercel
+
+1. **Banco**: no projeto, aba *Storage*, conecte um Postgres (Neon). A variável
+   de conexão entra sozinha; o código aceita `POSTGRES_URL`, `DATABASE_URL` e
+   os outros nomes usuais, então serve para qualquer uma das integrações.
+2. **Senha**: em *Settings → Environment Variables*, crie `ADMIN_KEY` com a
+   senha do painel.
+3. Faça um novo deploy para as variáveis valerem.
+
+A tabela `downloads` é criada sozinha na primeira chamada — não há migração
+para rodar à mão.
+
 ## Rodando local
 
 ```bash
 node dev-server.js
 ```
 
-Depois abra <http://localhost:4173>.
+Depois abra <http://localhost:4173>. O `dev-server.js` também responde a
+`/api/log` e `/api/admin` guardando os registros em memória, para dar para
+mexer no painel sem subir banco nenhum. A senha local é `dev` (ou o valor de
+`ADMIN_KEY`, se você definir), e os dados somem quando o servidor para.
 
 ## Publicando
 

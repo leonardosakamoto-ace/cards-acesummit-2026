@@ -382,6 +382,29 @@ async function renderPngBlob(def, st) {
   });
 }
 
+/* Avisa a organização que alguém gerou um card. Deliberadamente frouxo:
+   se falhar, o download segue normalmente e ninguém fica sabendo. */
+function registrarDownload(def, st) {
+  try {
+    const corpo = JSON.stringify({
+      card: def.id,
+      nome: st.nome || '',
+      cargo: st.cargo || '',
+      empresa: st.empresa || '',
+    });
+    const enviado = navigator.sendBeacon
+      && navigator.sendBeacon('/api/log', new Blob([corpo], { type: 'application/json' }));
+    if (!enviado) {
+      fetch('/api/log', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: corpo,
+        keepalive: true,
+      }).catch(() => {});
+    }
+  } catch { /* registro é acessório, nunca crítico */ }
+}
+
 function fileName(def, st) {
   const who = slugify(st.nome || st.empresa || '');
   return `ace-summit-2026-${def.slug}${who ? `-${who}` : ''}.png`;
@@ -718,6 +741,7 @@ function bindDownload() {
     try {
       const blob = await renderPngBlob(def, st);
       const name = fileName(def, st);
+      registrarDownload(def, st);
       const file = new File([blob], name, { type: 'image/png' });
 
       if (canShareFiles && navigator.canShare({ files: [file] })) {
@@ -746,8 +770,22 @@ function bindDownload() {
 
 /* ---------- roteamento ---------- */
 
+const ROTA_ADMIN = 'admin-ace';
+
 function route() {
   const id = location.hash.replace(/^#/, '');
+
+  if (id === ROTA_ADMIN) {
+    $('#view-picker').hidden = true;
+    $('#view-editor').hidden = true;
+    const host = $('#view-admin');
+    host.hidden = false;
+    // carregado sob demanda: o código do painel não pesa para quem faz card
+    import('./admin.js').then((m) => m.mount(host));
+    return;
+  }
+
+  $('#view-admin').hidden = true;
   const def = id && cardById(id);
   if (def) openEditor(def);
   else closeEditor();
