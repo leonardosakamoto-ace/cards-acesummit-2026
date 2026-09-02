@@ -669,7 +669,11 @@ function bindUpload() {
 
 function bindDownload() {
   const btn = $('#download');
-  const canShareFiles = !!(navigator.canShare && navigator.share);
+  // No celular a folha nativa de compartilhamento é o caminho mais curto
+  // (salvar na galeria, mandar para o Instagram). No desktop ela só atrapalha
+  // quem quer o arquivo, então lá vai direto para o download.
+  const isTouch = window.matchMedia('(pointer: coarse)').matches;
+  const canShareFiles = isTouch && !!(navigator.canShare && navigator.share);
 
   btn.addEventListener('click', async () => {
     if (!current) return;

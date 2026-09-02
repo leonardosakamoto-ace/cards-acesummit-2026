@@ -43,8 +43,8 @@ público sem a pessoa precisar escolher:
   comprido não estoura o card. Os textos ficam salvos no navegador entre
   visitas (as imagens, não).
 - **Download**: no celular, quando o navegador permite, abre a folha nativa de
-  compartilhamento (salvar na galeria, mandar direto para o Instagram). Caso
-  contrário, baixa o arquivo normalmente.
+  compartilhamento — salvar na galeria ou mandar direto para o Instagram. No
+  desktop baixa o arquivo direto, sem passar pela folha de compartilhamento.
 
 ## Fidelidade ao design
 
